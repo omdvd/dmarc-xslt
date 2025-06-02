@@ -11,6 +11,17 @@
       </head>
       <body>
         <xsl:apply-templates />
+        <script>
+        (function(){
+            var parseDate = function(elementId) {
+                var dateElement = document.getElementById(elementId)
+                var date = new Date(parseInt(dateElement.innerHTML) * 1000)
+                dateElement.innerHTML = date.toISOString().replace(/(.+)T(.+)\.[0-9]{3}Z/g, '$1 $2')
+            }
+            parseDate('date_range-begin')
+            parseDate('date_range-end')
+        })()
+        </script>
       </body>
     </html>
   </xsl:template>
@@ -43,9 +54,9 @@
           <xsl:value-of select="report_metadata/report_id" />
         </td>
         <td>
-          <xsl:value-of select="report_metadata/date_range/begin" />
+          <span id="date_range-begin"><xsl:value-of select="report_metadata/date_range/begin" /></span>
           -
-          <xsl:value-of select="report_metadata/date_range/end" />
+          <span id="date_range-end"><xsl:value-of select="report_metadata/date_range/end" /></span>
         </td>
       </tr>
     </table>
